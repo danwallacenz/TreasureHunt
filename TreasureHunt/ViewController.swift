@@ -91,11 +91,50 @@ extension ViewController: MKMapViewDelegate {
                 view.annotation = annotation
                 // if a view was dequeued, then change its annotation.
             }
+            view.pinColor = treasure.pinColor()
+            
             return view
         }
         return nil
     }
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!)
+    {
+        if let treasure = view.annotation as? Treasure {
+            if let alertable = treasure as? Alertable {
+                let alert = alertable.alert()
+                alert.addAction(
+                    UIAlertAction(title: "OK",
+                                style: UIAlertActionStyle.Default,
+                                handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+            }
+        }
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
