@@ -12,6 +12,8 @@
 		C982FA21194DAB5E00EFCAFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C982FA1F194DAB5E00EFCAFD /* Main.storyboard */; };
 		C982FA23194DAB5E00EFCAFD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C982FA22194DAB5E00EFCAFD /* Images.xcassets */; };
 		C982FA2F194DAB5F00EFCAFD /* TreasureHuntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982FA2E194DAB5F00EFCAFD /* TreasureHuntTests.swift */; };
+		CB92AA311A087FF000C94400 /* Treasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB92AA301A087FF000C94400 /* Treasure.swift */; };
+		CB92AA331A08817900C94400 /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB92AA321A08817900C94400 /* GeoLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 		C982FA28194DAB5F00EFCAFD /* TreasureHuntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreasureHuntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C982FA2D194DAB5F00EFCAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C982FA2E194DAB5F00EFCAFD /* TreasureHuntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreasureHuntTests.swift; sourceTree = "<group>"; };
+		CB92AA301A087FF000C94400 /* Treasure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Treasure.swift; sourceTree = "<group>"; };
+		CB92AA321A08817900C94400 /* GeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeoLocation.swift; path = ../GeoLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,8 @@
 				C982FA1B194DAB5E00EFCAFD /* AppDelegate.swift */,
 				C982FA1D194DAB5E00EFCAFD /* ViewController.swift */,
 				C982FA1F194DAB5E00EFCAFD /* Main.storyboard */,
+				CB92AA301A087FF000C94400 /* Treasure.swift */,
+				CB92AA321A08817900C94400 /* GeoLocation.swift */,
 				C982FA22194DAB5E00EFCAFD /* Images.xcassets */,
 				C982FA19194DAB5E00EFCAFD /* Supporting Files */,
 			);
@@ -208,8 +214,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB92AA331A08817900C94400 /* GeoLocation.swift in Sources */,
 				C982FA1E194DAB5E00EFCAFD /* ViewController.swift in Sources */,
 				C982FA1C194DAB5E00EFCAFD /* AppDelegate.swift in Sources */,
+				CB92AA311A087FF000C94400 /* Treasure.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
