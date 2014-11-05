@@ -27,7 +27,14 @@ class ViewController: UIViewController {
   
   @IBOutlet var mapView : MKMapView!
   
-    var treasures: [Treasure] = []
+    private var treasures: [Treasure] = []
+    
+    // An array of GeoLocation structs so that the app can keep track of which treasures the user has found and in what order.
+    private var foundLocations: [GeoLocation] = []
+    
+    // An implicitly unwrapped optional. This is so it can be nil if necessary, such as before the user has found any treasures.
+    private var polyline: MKPolyline!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +71,38 @@ class ViewController: UIViewController {
         
         //  Set the map view’s visible map rectangle to the calculated rectangle. You use some edge padding to ensure that no pins end up underneath the navigation bar or too close to the edge of the screen.
         self.mapView.setVisibleMapRect(rectToDisplay, edgePadding: UIEdgeInsetsMake(174,10,10,10), animated: false)
+    }
+    
+    private func markTreasureAsFound(treasure: Treasure) {
+        
+        // Check if the location already exists in the found locations array using the global find() function, which takes a collection and an element to find in the collection. The function returns either the index into the collection where the element is found, or nil.
+        if let index = find(self.foundLocations, treasure.location) {
+            
+            //  If the location does already exist in the found locations array, then display an alert showing at which step the user found the treasure.
+            let alert = UIAlertController(
+                title: "Oops!",
+                message: "You've already found this treasure (at step \(index + 1))! Try again!",
+                preferredStyle: .Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        } else {
+            
+            // If the location doesn’t exist in the found locations array, then you add it to the array.
+            self.foundLocations.append(treasure.location)
+            
+            
+            //  If a polyline already exists, remove it from the map. If we didn’t do this, then overlays would pile up on the map each time you added a new one.
+            if self.polyline != nil {
+                self.mapView.removeOverlay(self.polyline)
+            }
+            
+            //  C     reate a new MKPolyline and add it to the map view. Take note of the use of the map function on the array. This function takes each element in the array, converts it using the supplied closure and creates a new array from the results. The code above uses the short syntax for closures where the signature is completely left off because Swift can infer it from the map function’s signature. Each element in the array is passed into the closure as the $0 variable.
+            var coordinates = self.foundLocations.map { $0.coordinate }
+            self.polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+            self.mapView.addOverlay(self.polyline)
+        }
     }
 }
 
@@ -109,6 +148,12 @@ extension ViewController: MKMapViewDelegate {
                                 handler: nil))
 
                 alert.addAction(UIAlertAction(
+                    title: "Found",
+                    style: UIAlertActionStyle.Default) { action in
+                    self.markTreasureAsFound(treasure)
+                    })
+                
+                alert.addAction(UIAlertAction(
                     title: "Find Nearest", style: UIAlertActionStyle.Default){ action in
                             // Create a local variable to hold a copy of the original array.
                             var sortedTreasures = self.treasures //copy
@@ -133,6 +178,17 @@ extension ViewController: MKMapViewDelegate {
                 
             }
         }
+    }
+    
+    
+    // This method tells the map view how to render a given overlay. The overlay you’re using is MKPolyline, which has an associated renderer called MKPolylineRenderer. Notice the use of optional checking again to downcast the overlay type.
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if let polylineOverlay = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polylineOverlay)
+            renderer.strokeColor = UIColor.blueColor()
+            return renderer
+        }
+        return nil
     }
     
 }

@@ -32,3 +32,13 @@ extension GeoLocation {
         return MKMapPointForCoordinate(self.coordinate)
     }
 }
+
+
+// This extension is the usual way to declare conformance to a protocol, but notice that the == function is not inside the extension. You must declare all operator overloads at global scope because they aren’t methods that belong to a class – you can use the == operator on its own anywhere. They are only associated with a class in that the type of the two parameters are instances of the class the function is comparing.
+extension GeoLocation: Equatable {
+}
+
+func ==(lhs: GeoLocation, rhs: GeoLocation) -> Bool {
+    return lhs.latitude == rhs.latitude &&
+    lhs.longitude == rhs.longitude
+}
