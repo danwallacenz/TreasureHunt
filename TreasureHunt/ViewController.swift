@@ -107,6 +107,28 @@ extension ViewController: MKMapViewDelegate {
                     UIAlertAction(title: "OK",
                                 style: UIAlertActionStyle.Default,
                                 handler: nil))
+
+                alert.addAction(UIAlertAction(
+                    title: "Find Nearest", style: UIAlertActionStyle.Default){ action in
+                            // Create a local variable to hold a copy of the original array.
+                            var sortedTreasures = self.treasures //copy
+                        
+                        
+                            // The sort method takes a single parameter—a closure that takes two objects—and returns a Boolean indicating whether object one is ordered before object two.
+                            sortedTreasures.sort {
+                                
+                                // Calculate the distance between the current treasure and each of the treasures you’re sorting. Notice the use of $0 and $1. This is shorthand syntax for the first and second parameters passed into a closure.
+                                let distanceA = treasure.location.distanceBetween($0.location)
+                                let distanceB = treasure.location.distanceBetween($1.location)
+                                
+                                // You check the first distance against the second distance and return true if it’s smaller. In this way, you sort the array of treasures in order of shortest to longest distance from the current treasure.
+                                return distanceA < distanceB
+                            }
+                            // Deselect the current treasure and select the new treasure. If you’re wondering why the code selects the second element in the sorted array, it’s because the first element will always be the current treasure itself
+                            mapView.deselectAnnotation(treasure, animated: true)
+                            mapView.selectAnnotation(sortedTreasures[1], animated: true)
+                    })
+
                 self.presentViewController(alert, animated: true, completion: nil)
                 
             }
